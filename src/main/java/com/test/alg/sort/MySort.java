@@ -2,6 +2,7 @@ package com.test.alg.sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -13,8 +14,9 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class MySort {
     public static void main(String[] args) {
-        sort1();
-        bubble();
+//        sort1();
+//        bubble();
+        insertSort();
     }
 
     public static void sort1() {
@@ -52,6 +54,50 @@ public class MySort {
         }
         for (int i : source) {
             System.out.println(i);
+        }
+    }
+
+    public static void insertSort() {
+        List<Integer> result = new LinkedList<>();
+        int[] source = Source.source;
+
+        for (int item : source) {
+            if (result.isEmpty()) {
+                result.add(item);
+                continue;
+            }
+            if (item <= result.get(0)) {
+                result.add(0, item);
+                continue;
+            }
+            if (item >= result.get(result.size() - 1)) {
+                result.add(item);
+                continue;
+            }
+            int index = res(item, result.size() / 2, result);
+            result.add(index, item);
+        }
+        System.out.println(result);
+    }
+
+    public static int res(int value, int index, List<Integer> list) {
+        int value1 = list.get(index - 1);
+        int value2 = list.get(index);
+        if (value > value1 && value < value2) {
+            return index;
+        }
+        if (value == value1)
+            return index - 1;
+        if (value == value2)
+            return index;
+
+        if (value < value1) {
+            return res(value, index / 2, list);
+        }
+        if (value > value2) {
+            return res(value, index + (list.size() - index) / 2, list);
+        } else {
+            return -1;
         }
     }
 }
